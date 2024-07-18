@@ -13,10 +13,14 @@ exports.MysqlUsersRepository = void 0;
 const mysql_1 = require("../../../database/mysql");
 const Users_1 = require("../../domain/Users");
 class MysqlUsersRepository {
-    login(correo, password) {
+    login(correo, password, id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const sql = "SELECT * FROM users WHERE correo=? and password=?";
+            let sql = "SELECT * FROM users WHERE correo=? and password=?";
             const params = [correo, password];
+            if (id) {
+                sql += " and id=?";
+                params.push(id);
+            }
             try {
                 const result = yield (0, mysql_1.query)(sql, params);
                 const user = result[0][0];
